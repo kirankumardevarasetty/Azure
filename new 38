@@ -1,0 +1,123 @@
+module "azure_roles" {
+  source                  = "./azure_roles"
+  subscription_id         = "YOUR_SUBSCRIPTION_ID"
+  resource_group_name     = "YOUR_RESOURCE_GROUP_NAME"
+  contributor_role_assignments = [
+    {
+      principal_id = "CONTRIBUTOR_PRINCIPAL_ID_1"
+    },
+    {
+      principal_id = "CONTRIBUTOR_PRINCIPAL_ID_2"
+    },
+    ...
+  ]
+  owner_role_assignments = [
+    {
+      principal_id = "OWNER_PRINCIPAL_ID_1"
+    },
+    {
+      principal_id = "OWNER_PRINCIPAL_ID_2"
+    },
+    ...
+  ]
+  reader_role_assignments = [
+    {
+      principal_id = "READER_PRINCIPAL_ID_1"
+    },
+    {
+      principal_id = "READER_PRINCIPAL_ID_2"
+    },
+    ...
+  ]
+}
+
+
+---------------------------------------------
+output.tf
+output "contributor_role_assignments" {
+  value = var.contributor_role_assignments
+}
+
+output "owner_role_assignments" {
+  value = var.owner_role_assignments
+}
+
+output "reader_role_assignments" {
+  value = var.reader_role_assignments
+}
+
+--------------------------------------------------
+variables.tf
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+}
+
+variable "resource_group_name" {
+  description = "Name of the resource group"
+}
+
+variable "contributor_role_assignments" {
+  type        = list(map(string))
+  description = "List of contributor role assignments"
+}
+
+variable "owner_role_assignments" {
+  type        = list(map(string))
+  description = "List of owner role assignments"
+}
+
+variable "reader_role_assignments" {
+  type        = list(map(string))
+  description = "List of reader role assignments"
+}
+
+------------------------------------
+main.tf
+provider "azurerm" {
+  version = "~> 2.0"
+}
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+}
+
+variable "resource_group_name" {
+  description = "Name of the resource group"
+}
+
+variable "contributor_role_assignments" {
+  type        = list(map(string))
+  description = "List of contributor role assignments"
+}
+
+variable "owner_role_assignments" {
+  type        = list(map(string))
+  description = "List of owner role assignments"
+}
+
+variable "reader_role_assignments" {
+  type        = list(map(string))
+  description = "List of reader role assignments"
+}
+
+resource "azurerm_role_assignment" "contributor" {
+  count           = length(var.contributor_role_assignments)
+  role_definition_name = "Contributor"
+  scope           = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}"
+  principal_id    = var.contributor_role_assignments[count.index]["principal_id"]
+}
+
+resource "azurerm_role_assignment" "owner" {
+  count           = length(var.owner_role_assignments)
+  role_definition_name = "Owner"
+  scope           = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}"
+  principal_id    = var.owner_role_assignments[count.index]["principal_id"]
+}
+
+resource "azurerm_role_assignment" "reader" {
+  count           = length(var.reader_role_assignments)
+  role_definition_name = "Reader"
+  scope           = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}"
+  principal_id    = var.reader_role_assignments[count.index]["principal_id"]
+}
