@@ -1,0 +1,60 @@
+# UOM_IAC_EVOLVE_POC Terraform Repository
+
+This repository contains the Terraform code for the UOM_IAC_EVOLVE_POC project. It follows a modular approach with separate directories for environments, modules, and scripts. The modules directory further consists of different layers, including the subscription layer, networking layer, management layer, security layer, and application layer.
+
+## Repository Structure
+
+The repository is structured as follows:
+
+
+├── environments/
+├── modules/
+│ ├── 0_subscription_layer/
+│ ├── 1_networking_layer/
+│ ├── 2_management_layer/
+│ ├── 3_security_layer/
+│ └── 4_application_layer/
+└── scripts/
+
+
+- `environments/`: This directory contains the Terraform code for different environments, such as development, staging, and production. Each environment may have its own set of configurations and variables.
+
+- `modules/`: This directory contains reusable Terraform modules that can be used across different environments or projects. It is further divided into different layers to provide a structured approach to infrastructure provisioning.
+
+  - `0_subscription_layer/`: This layer focuses on setting up the subscription-level resources, such as Azure Resource Groups or AWS accounts.
+
+  - `1_networking_layer/`: This layer handles the networking infrastructure, including virtual networks, subnets, load balancers, and DNS settings.
+
+  - `2_management_layer/`: This layer is responsible for provisioning management resources, such as jump boxes, bastion hosts, or configuration management tools.
+
+  - `3_security_layer/`: This layer deals with security-related resources, such as security groups, firewalls, or access control policies.
+
+  - `4_application_layer/`: This layer focuses on deploying the actual application resources, such as virtual machines, containers, databases, or serverless functions.
+
+- `scripts/`: This directory contains any additional scripts or automation tools that complement the Terraform infrastructure provisioning.
+
+## Getting Started
+
+To get started with this repository, follow these steps:
+
+1. Clone the repository: `git clone <repository-url>`
+2. Navigate to the desired environment directory, e.g., `environments/development`.
+3. Review and customize the Terraform code and variable files based on your requirements.
+4. Initialize Terraform: `terraform init`
+5. Apply the infrastructure changes: `terraform apply`
+
+Please refer to the README.md file inside each environment directory for environment-specific instructions.
+
+## Contributing
+
+If you wish to contribute to this repository, please follow these guidelines:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b my-new-branch`
+3. Make your changes and commit them: `git commit -am 'Add some feature'`
+4. Push the changes to your fork: `git push origin my-new-branch`
+5. Submit a pull request detailing your changes.
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE).
