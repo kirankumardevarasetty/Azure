@@ -1,0 +1,75 @@
+Azure Resource Group Module
+The Azure Resource Group module is designed to create and manage resource groups in Azure using Terraform. It provides a reusable and scalable solution for organizing and grouping resources within your Azure infrastructure.
+
+Table of Contents
+Module Overview
+Prerequisites
+Usage
+Inputs
+Outputs
+Examples
+Contributing
+License
+Module Overview
+The Azure Resource Group module is built using Terraform and allows you to define and provision resource groups in Azure. It provides a simple and consistent way to create and manage resource groups across different Azure environments.
+
+Prerequisites
+Before using the Azure Resource Group module, ensure the following prerequisites are met:
+
+Terraform is installed locally.
+Azure CLI is installed and configured.
+Access credentials for Azure are set up.
+Basic knowledge of Terraform and Azure infrastructure.
+Usage
+To use the Azure Resource Group module, follow these steps:
+
+Initialize the module by executing terraform init in your Terraform project.
+Include the module in your Terraform configuration:
+hcl
+Copy code
+module "resource_group" {
+  source = "github.com/your-username/resource-group-azure"
+
+  name     = "my-resource-group"
+  location = "eastus"
+  tags     = {
+    environment = "dev"
+    project     = "my-project"
+  }
+}
+Configure the required inputs (see the Inputs section for more details).
+Execute terraform plan to review the changes that will be applied.
+Execute terraform apply to create the resource group in Azure.
+Inputs
+The Azure Resource Group module supports the following inputs:
+
+name (required): The name of the resource group.
+location (required): The Azure region where the resource group will be created.
+tags (optional): A map of tags to associate with the resource group.
+Refer to the variables.tf file for additional details and validation constraints on the inputs.
+
+Outputs
+The Azure Resource Group module provides the following outputs:
+
+id: The ID of the created resource group.
+name: The name of the created resource group.
+location: The Azure region of the created resource group.
+tags: The tags associated with the resource group.
+Refer to the output.tf file for additional details on the outputs.
+
+Examples
+You can find example usage of the Azure Resource Group module in the examples directory. The examples demonstrate how to create resource groups with different configurations.
+
+To run the examples:
+
+Navigate to the example directory.
+Execute terraform init to initialize the module.
+Execute terraform plan to review the changes.
+Execute terraform apply to create the resource group in Azure.
+Contributing
+Contributions to the Azure Resource Group module are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request. Make sure to follow the existing coding style and conventions.
+
+License
+The Azure Resource Group module is open source and available under the MIT License.
+
+Feel free to modify the template above according to your module's specific details and requirements. Provide clear instructions and examples to help users understand how to use your module effectively.
