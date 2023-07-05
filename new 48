@@ -1,0 +1,116 @@
+Sure! Here's an example of how you can create a User Assigned Identity (UAI) module in Azure using Terraform.
+
+Create a file named main.tf and add the following code:
+
+terraform
+Copy code
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_user_assigned_identity" "uai_example" {
+  name                = "uai-example"
+  resource_group_name = "your-resource-group-name"
+  location            = "your-resource-group-location"
+}
+
+output "uai_object_id" {
+  value = azurerm_user_assigned_identity.uai_example.principal_id
+}
+Make sure to replace "uai-example" with your desired name for the User Assigned Identity. Also, update "your-resource-group-name" and "your-resource-group-location" with the appropriate values for your Azure resource group.
+
+Next, initialize the Terraform configuration by running the following command:
+
+shell
+Copy code
+terraform init
+Then, authenticate with Azure by executing:
+
+shell
+Copy code
+az login
+Once authenticated, you can apply the Terraform configuration by running:
+
+shell
+Copy code
+terraform apply
+Review the changes and if everything looks good, confirm by typing yes.
+
+Terraform will then create the User Assigned Identity in Azure. After the execution is complete, you will see the output showing the uai_object_id, which represents the principal ID of the created User Assigned Identity.
+
+Remember to use the appropriate Azure provider version in your main.tf file based on the version of the Terraform Azure provider you have installed.
+
+That's it! You have created a User Assigned Identity module in Azure using Terraform.
+
+
+
+
+
+User
+Helping in writing the terraform code for writing user assigned identity module in azure . 
+with data.tf , locals.tf , main.tf , outputs.tf and variables.tf files
+ChatGPT
+Certainly! I'll provide you with an example of how you can structure your Terraform code for creating a User Assigned Identity (UAI) module in Azure.
+
+First, let's create the variables.tf file to define the variables used in the module:
+
+terraform
+Copy code
+variable "uai_name" {
+  description = "Name for the User Assigned Identity"
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "Name of the resource group"
+  type        = string
+}
+
+variable "resource_group_location" {
+  description = "Location of the resource group"
+  type        = string
+}
+Next, we'll create the data.tf file to fetch existing data from Azure:
+
+terraform
+Copy code
+data "azurerm_subscription" "current" {}
+
+data "azurerm_resource_group" "existing" {
+  name = var.resource_group_name
+}
+Then, create the locals.tf file to define any local variables used within the module:
+
+terraform
+Copy code
+locals {
+  uai_resource_group_name = data.azurerm_resource_group.existing.name
+}
+Now, let's create the main.tf file to define the resources:
+
+terraform
+Copy code
+resource "azurerm_user_assigned_identity" "uai_example" {
+  name                = var.uai_name
+  resource_group_name = local.uai_resource_group_name
+  location            = var.resource_group_location
+}
+
+output "uai_object_id" {
+  value = azurerm_user_assigned_identity.uai_example.principal_id
+}
+Finally, create the outputs.tf file to define the outputs of the module:
+
+terraform
+Copy code
+output "uai_object_id" {
+  description = "Principal ID of the created User Assigned Identity"
+  value       = azurerm_user_assigned_identity.uai_example.principal_id
+}
+With this structure, you can easily add or modify variables, data sources, and outputs as needed for your specific use case.
+
+Remember to replace "your-resource-group-name" and "your-resource-group-location" with the appropriate values in the variables.tf file.
+
+To use this module, you can create a separate Terraform configuration file (e.g., main.tf) in a different directory and call the module using the module block, passing in the required variables.
+
+I hope this helps! Let me know if you have any further questions.
